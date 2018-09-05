@@ -61,7 +61,7 @@ class TouchEngine:EventEngine {
         let results=self.view.hitTest(point, options: nil)
         var node = results.first?.node
         while node != nil {
-            guard let control = node as? AttachControl,control.respond(to: event) else {
+            guard let control = node as? AttachControl,control.respond(to: event,in: self.view) else {
                 node=node?.parent
                 continue
             }
@@ -94,7 +94,7 @@ extension AttachSceneView {
             while node != nil {
                 var click:Event = .click
                 click.state = (.begin,nil,false)
-                guard let control = node as? AttachControl,control.respond(to: click) else {
+                guard let control = node as? AttachControl,control.respond(to: click,in: self) else {
                     node=node?.parent
                     continue
                 }
@@ -124,7 +124,7 @@ extension AttachSceneView {
             }
             if engine.control != nil {
                 engine.event.state = (.invalid,nil,false)
-                engine.control?.respond(to: engine.event)
+                engine.control?.respond(to: engine.event,in: self)
                 return
             }
         }
@@ -143,7 +143,7 @@ extension AttachSceneView {
                     continue
                 }
                 engine.event.state = (.end,nil,true)
-                engine.control?.respond(to: engine.event)
+                engine.control?.respond(to: engine.event,in: self)
                 return
             }
         }
@@ -162,7 +162,7 @@ extension AttachSceneView {
                     continue
                 }
                 engine.event.state = (.end,nil,true)
-                engine.control?.respond(to: engine.event)
+                engine.control?.respond(to: engine.event,in: self)
                 return
             }
         }

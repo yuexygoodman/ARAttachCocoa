@@ -9,7 +9,7 @@
 import Foundation
 import SceneKit
 
-public typealias EventHandler = (AttachControl,Event)->Void
+public typealias EventHandler = (SCNView,AttachControl,Event)->Void
 
 open class AttachControl:SCNNode {
     private var handlers:[Event:[EventHandler]]=[:]
@@ -25,7 +25,7 @@ open class AttachControl:SCNNode {
         handlers[event]=nil
     }
     @discardableResult
-    open func respond(to event:Event) -> Bool {
+    open func respond(to event:Event,in view:SCNView) -> Bool {
         for key in self.handlers.keys {
             if key == event {
                 var ev = key
@@ -41,7 +41,7 @@ open class AttachControl:SCNNode {
                 }
                 if ev.state.shouldTrigger {
                     for handler in hds {
-                        handler(self,event)
+                        handler(view,self,event)
                     }
                 }
                 self.handlers[ev]=hds

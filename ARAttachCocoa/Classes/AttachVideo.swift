@@ -104,7 +104,7 @@ extension AttachVideo {
 
 extension AttachVideo {
     fileprivate var toFullScreen:EventHandler {
-        return { (_,_) in
+        return { (_,_,_) in
             if let frame = self.sceneView.session.currentFrame {
                 let copyNode = self.clone()
                 self.copyNode=copyNode

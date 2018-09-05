@@ -86,10 +86,10 @@ open class AttachButton: AttachControl {
             self.textLabel=nil
         }
     }
-    open override func respond(to event: Event) -> Bool {
+    open override func respond(to event: Event,in view:SCNView) -> Bool {
         if !self.enabled {
             return false
         }
-        return super.respond(to: event)
+        return super.respond(to: event,in: view)
     }
 }
