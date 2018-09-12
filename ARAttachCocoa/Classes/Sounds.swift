@@ -15,6 +15,8 @@ public struct Sound:FragmentCombination {
     var fragments: [Sound]=[]
     
     public internal(set) var systemId:SystemSoundID?=nil
+    internal var url:URL?
+    internal var player:AVPlayer?
     init() {
     }
     public init(_ systemId:SystemSoundID) {
@@ -24,6 +26,7 @@ public struct Sound:FragmentCombination {
         var soundId:SystemSoundID=0
         AudioServicesCreateSystemSoundID(mediaUrl as CFURL, &soundId)
         self.systemId = soundId
+        self.url = mediaUrl
     }
     public mutating func play() -> Void {
         if self.systemId != nil {
@@ -35,7 +38,12 @@ public struct Sound:FragmentCombination {
             }
         }
     }
-    
+    public mutating func playback() -> Void {
+        if let url = self.url {
+            self.player = self.player ?? AVPlayer.init(url: url)
+            self.player?.play()
+        }
+    }
 }
 
 //dang
